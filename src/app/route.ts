@@ -2,9 +2,8 @@ import {neon} from '@neondatabase/serverless'
 import updateDb from '../updateDb'
 
 const mapId = process.env.MAP_ID || 1
-const maxAge = process.env.MAX_AGE ? parseInt(process.env.MAX_AGE) : 60 * 60 * 24 * 365 // 1 year
 
-export const revalidate = maxAge
+export const revalidate = 43200 // 12h
 
 export async function GET () {
   const sql = neon(`${process.env.DATABASE_URL}`)
@@ -12,7 +11,7 @@ export async function GET () {
   const {data, updated_at, update_started_at, update_failed_at} = map
   const now = new Date()
   const age = (now.getTime() - updated_at.getTime()) / 1000
-  const stale = age > maxAge
+  const stale = age > revalidate
   const updating = update_started_at > updated_at && (update_failed_at === null || update_started_at > update_failed_at)
 
   if (stale && !updating) {
