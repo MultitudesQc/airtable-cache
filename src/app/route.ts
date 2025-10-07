@@ -1,9 +1,9 @@
 import {neon} from '@neondatabase/serverless'
 import updateDb from '../updateDb'
 
-const mapId = process.env.MAP_ID || 1
+export const revalidate = 43200 // seconds
 
-export const revalidate = 43200 // 12h
+const mapId = process.env.MAP_ID || '1'
 
 export async function GET () {
   const sql = neon(`${process.env.DATABASE_URL}`)
