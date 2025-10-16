@@ -55,7 +55,11 @@ export default async function updateDb (cache: GeocodedRecords) {
     })
     const postalCodesToGeocode = responseData.records.reduce((acc: string[], responseEvent: Event) => {
       const cached = cache.find(cachedEvent => cachedEvent.id === responseEvent.id)
-      if (!cached || (cached.fields['Code postal'] !== responseEvent.fields['Code postal'] && cached.fields['Code postal'])) {
+      if (responseEvent.fields['Code postal'] && (
+        !cached || (
+          cached.fields['Code postal'] !== responseEvent.fields['Code postal'] && cached.fields['Code postal']
+        )
+      )) {
         acc.push(responseEvent.fields['Code postal'])
       }
       return acc
@@ -86,7 +90,7 @@ export default async function updateDb (cache: GeocodedRecords) {
       console.log('Geocoding and update successful')
     }
   } catch (e) {
-    console.error(e)
+    console.error(`An unhandled error occurred: ${e}`)
     await sql`UPDATE maps SET update_failed_at = now() WHERE id = ${mapId}`
   }
 }
