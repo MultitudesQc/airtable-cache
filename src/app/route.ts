@@ -1,8 +1,7 @@
 import {neon} from '@neondatabase/serverless'
 import updateDb from '../updateDb'
-import config from '@/config.json'
 
-export const revalidate = config.maxAgeInSeconds // seconds
+export const revalidate = 43200 // seconds
 
 const mapId = process.env.MAP_ID || '1'
 
