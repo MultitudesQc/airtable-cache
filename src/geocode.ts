@@ -1,6 +1,6 @@
 const geocodingApiKey = process.env.GEOAPIFY_API_KEY
 const batchGeocodingApiUrl = process.env.GEOAPIFY_BATCH_GEOCODING_URL
-const msPerAddress = parseInt(process.env.MS_PER_ADDRESS || '500') // half a second
+const msPerAddress = parseInt(process.env.MS_PER_ADDRESS || '250') // a quarter of a second
 const maxAttempts = parseInt(process.env.MAX_ATTEMPTS || '10')
 
 type BatchGeocodingResponse = {

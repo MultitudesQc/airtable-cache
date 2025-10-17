@@ -1,4 +1,5 @@
 import {neon} from '@neondatabase/serverless'
+import {waitUntil} from '@vercel/functions'
 import updateDb from '../updateDb'
 import {maxAgeInSeconds} from '../config.json'
 
@@ -14,7 +15,7 @@ export async function GET () {
   const updating = update_started_at > updated_at && (update_failed_at === null || update_started_at > update_failed_at)
 
   if (stale && !updating) {
-    updateDb(data) // Intentionally not awaited to run in background
+    waitUntil(updateDb(data))
   }
   return new Response(
     JSON.stringify({map, stale}),
