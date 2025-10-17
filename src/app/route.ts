@@ -1,7 +1,6 @@
 import {neon} from '@neondatabase/serverless'
 import updateDb from '../updateDb'
-
-export const revalidate = 43200 // seconds
+import {maxAgeInSeconds} from '../config.json'
 
 const mapId = process.env.MAP_ID || '1'
 
@@ -11,7 +10,7 @@ export async function GET () {
   const {data, updated_at, update_started_at, update_failed_at} = map
   const now = new Date()
   const age = (now.getTime() - updated_at.getTime()) / 1000
-  const stale = age > revalidate
+  const stale = age > maxAgeInSeconds
   const updating = update_started_at > updated_at && (update_failed_at === null || update_started_at > update_failed_at)
 
   if (stale && !updating) {

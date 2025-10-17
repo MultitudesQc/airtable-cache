@@ -1,6 +1,6 @@
 import {neon} from '@neondatabase/serverless'
 import geocode from './geocode'
-import config from '@/config.json'
+import {startDate, endDate} from '@/config.json'
 
 const appId = process.env.AIRTABLE_APP_ID
 const tableId = process.env.AIRTABLE_TABLE_ID
@@ -34,8 +34,8 @@ type GeocodedEvent = MultitudesEvent & {coordinates?: [lat: number, lon: number]
 type GeocodedRecords = GeocodedEvent[]
 
 const season = {
-  start: new Date(config.startDate),
-  end: new Date(config.endDate)
+  start: new Date(startDate),
+  end: new Date(endDate)
 }
 
 export default async function updateDb (cache: GeocodedRecords) {
