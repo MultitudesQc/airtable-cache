@@ -18,7 +18,7 @@ export async function GET () {
     waitUntil(updateDb(data))
   }
   return new Response(
-    JSON.stringify({map, stale}),
+    JSON.stringify({map, stale, updated_at}),
     {status: 200, headers: {'Content-Type': 'application/json'}}
   )
 }
