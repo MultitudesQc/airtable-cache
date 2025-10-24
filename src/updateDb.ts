@@ -57,6 +57,7 @@ export default async function updateDb (cache: GeocodedRecords) {
     const records = responseData.records.filter((event: MultitudesEvent) => {
       if (!event.id) return false
       if (!event.fields["Date de l'Assemblée"]) return false
+      if (!event.fields["Nom de l'événement"] && !event.fields["Description action"]) return false
       const eventDate = new Date(event.fields["Date de l'Assemblée"])
       if (eventDate < season.start || eventDate > season.end) return false
       return true
